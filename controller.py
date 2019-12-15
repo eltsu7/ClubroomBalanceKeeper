@@ -1,4 +1,4 @@
-from repository import Repository
+from testrepository import Repository
 
 repo = Repository()
 
