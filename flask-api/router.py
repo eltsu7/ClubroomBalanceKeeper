@@ -38,4 +38,4 @@ api.add_resource(Balance, "/balance/<string:id>")
 api.add_resource(ChangeBalance, "/changebalance/<string:id>")
 
 if __name__ == "__main__":
-    app.run(debug=True)
+    app.run(host='0.0.0.0', debug=True)
