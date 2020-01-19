@@ -1,16 +1,16 @@
 # Clubroom Balance Keeper
 
-An application + API to keep track of club members currency.
+An application + API to keep track of club members virtual balance.
 
 ## Contributing
 Fork & PR.
 
 ## Endpoints
 - Register user
-- Verify user
+- Get users data
 - Remove user
-- Get currency
-- Edit currency
+- Get products
+- Add transaction
 
 ## Application components
 - router, validates input and passes it to controller
