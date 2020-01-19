@@ -1,4 +1,4 @@
-# Clubroom Currency Keeper
+# Clubroom Balance Keeper
 
 An application + API to keep track of club members currency.
 
