@@ -7,13 +7,9 @@ class Repository:
     def open_connection(self):
         db_name = environ["PSQL_DB"]
         db_user = environ["PSQL_USER"]
-        db_pass = environ["PSQL_PASSWORD"]
+        db_pass = ""
         db_host = environ["PSQL_HOST"]
         db_port = environ["PSQL_PORT"]
-
-        self.table_product = environ["PSQL_TABLE_PRODUCT"]
-        self.table_user = environ["PSQL_TABLE_USER"]
-        self.table_transaction = environ["PSQL_TABLE_TRANSACTION"]
 
         conn = psycopg2.connect(
             dbname=db_name,
@@ -30,7 +26,24 @@ class Repository:
 
 
     def userRegistered(self, id):
-        return str(id) in self.balances
+        conn = self.open_connection()
+        if not conn:
+            return None
+
+        cursor = conn.cursor()
+
+        sql =   "SELECT 1 " \
+                "FROM user " \
+                "WHERE user_id = {};"
+
+        cursor.execute(sql.format(id))
+
+        registered = cursor.fetchone() is not None
+
+        conn.close()
+
+        return registered
+
 
     def registerUser(self, id):
         self.balances[id] = 0
