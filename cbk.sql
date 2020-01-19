@@ -1,5 +1,13 @@
 -- PostrgreSQL schema for Clubroom Balance Keeper database
 
+CREATE DATABASE IF NOT EXISTS ClubroomBalanceKeeper;
+
+CREATE USER cbk_user;
+
+GRANT ALL PRIVILEGES ON DATABASE ClubroomBalanceKeeper TO cbk_user;
+
+CONNECT ClubroomBalanceKeeper;
+
 CREATE TABLE IF NOT EXISTS product (
     name            VARCHAR(50)     NOT NULL PRIMARY KEY,
     category        VARCHAR(50)     NOT NULL,
