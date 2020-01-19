@@ -2,6 +2,9 @@
 
 An application + API to keep track of club members currency.
 
+## Contributing
+Fork & PR.
+
 ## Endpoints
 - Register user
 - Verify user
