@@ -1,0 +1,15 @@
+version: '3'
+
+services:
+  api:
+    build: ./flask-api
+    ports:
+      - '5000:5000'
+
+  database:
+    image: postgres
+    volumes:
+      - cbk_data:/var/lib/postgresql/data
+
+volumes:
+  cbk_data:
