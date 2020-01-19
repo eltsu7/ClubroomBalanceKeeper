@@ -1,6 +1,6 @@
 -- PostrgreSQL schema for Clubroom Balance Keeper database
 
-CREATE DATABASE IF NOT EXISTS ClubroomBalanceKeeper;
+CREATE DATABASE ClubroomBalanceKeeper;
 
 CREATE USER cbk_user;
 
