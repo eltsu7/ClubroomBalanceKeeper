@@ -6,18 +6,24 @@ An application + API to keep track of club members virtual balance.
 Fork & PR.
 
 ## Endpoints
-User
+
+/user
+- GET returns all users
+- POST registers new user
+
+/user/id
 - GET returns user data
-- PUT registers new user
+- PUT update user data (nickname)
 - DELETE deletes user
 
-Product
-- GET returns available products
-- PUT adds new product
-- DELETE deletes product
-
-Transaction
+/user/id/transactions
+- GET returns users transactions
 - PUT adds new transaction
+
+/product
+- GET returns available products
+- POST adds new product
+- DELETE deletes product
 
 ## Application components
 - router, validates input and passes it to controller
