@@ -7,23 +7,29 @@ Fork & PR.
 
 ## Endpoints
 
-/user
-- GET returns all users
-- POST registers new user
+### /user
+GET returns all users
 
-/user/id
-- GET returns user data
-- PUT update user data (nickname)
-- DELETE deletes user
+POST registers new user
 
-/user/id/transactions
-- GET returns users transactions
-- PUT adds new transaction
+### /user/id
+GET returns user data
 
-/product
-- GET returns available products
-- POST adds new product
-- DELETE deletes product
+PUT update user data (nickname)
+
+DELETE deletes user
+
+### /user/id/transactions
+GET returns users transactions
+
+PUT adds new transaction
+
+### /product
+GET returns available products
+
+POST adds new product
+
+DELETE deletes product
 
 ## Application components
 - router, validates input and passes it to controller
