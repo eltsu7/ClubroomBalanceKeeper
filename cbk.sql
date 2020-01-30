@@ -5,7 +5,7 @@ CREATE EXTENSION IF NOT EXISTS "uuid-ossp";
 
 CREATE TABLE IF NOT EXISTS product (
     id              UUID            NOT NULL PRIMARY KEY DEFAULT uuid_generate_v4(),
-    name            VARCHAR(50)     NOT NULL,
+    name            VARCHAR(50)     NOT NULL UNIQUE,
     category        VARCHAR(50)     NOT NULL,
     price           INT             NOT NULL,
     active          BOOLEAN         NOT NULL DEFAULT TRUE
@@ -25,7 +25,7 @@ CREATE TABLE IF NOT EXISTS transaction (
     description     VARCHAR(255),
 
     FOREIGN KEY (product_id) REFERENCES product (id),
-    FOREIGN KEY (user_id) REFERENCES cbk_user (id)
+    FOREIGN KEY (cbk_user_id) REFERENCES cbk_user (id)
 );
 
 CREATE VIEW user_transactions AS
@@ -33,3 +33,13 @@ CREATE VIEW user_transactions AS
     FROM transaction
     INNER JOIN product ON transaction.product_id = product.id
     INNER JOIN cbk_user ON transaction.cbk_user_id = cbk_user.id;
+
+CREATE VIEW balances AS 
+    SELECT  cbk_user_id, sum(product.price) as balance
+    FROM transaction
+        INNER JOIN product ON transaction.product_id = product.id
+    GROUP BY cbk_user_id;
+
+CREATE VIEW products AS
+    SELECT product.name, product.category, ABS(product.price)
+    FROM product;
