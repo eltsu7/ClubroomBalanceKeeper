@@ -3,26 +3,43 @@ from flask_restful import reqparse, Resource, Api
 from controller import Controller
 
 parser = reqparse.RequestParser()
-parser.add_argument("amount", type=int, help="Amount must be an integer!")
-parser.add_argument("amount", required=True, help="Amount can't be empty!")
 
 app = Flask(__name__)
 api = Api(app)
 
 controller = Controller()
 
-class Balance(Resource):
-    def get(self, id):
-        balance = controller.getBalance(str(id))
+class User(Resource):
+    def isTrusted(self, key):
 
-        if balance == None:
-            return "User not found", 404
-        else:
-            return  balance, 200
+        if key != "":
+            with open('trusted_hosts') as f:
+                trusted_keys = f.readlines()
+                trusted_keys = [x.strip() for x in trusted_keys]
+    
+                return key in trusted_keys
+
+        return False
+
+    def get(self):
+
+        user = request.args.get('user')
+        api_key = request.args.get('api_key')
+
+        print(user, api_key)
+
+        if self.isTrusted(api_key):
+
+            balance = controller.getBalance(str(user))    
+
+            if balance == None:
+                return "User not found", 404
+            else:
+                return  balance, 200
             
 
 
-class ChangeBalance(Resource):
+class Transaction(Resource):
     def put(self, id):
         args = parser.parse_args()
         amount = args["amount"]
@@ -34,8 +51,8 @@ class ChangeBalance(Resource):
         else: return "Balance could not be changed", 400
 
 
-api.add_resource(Balance, "/balance/<string:id>")
-api.add_resource(ChangeBalance, "/changebalance/<string:id>")
+api.add_resource(User, "/user")
+api.add_resource(Transaction, "/transaction")
 
 if __name__ == "__main__":
     app.run(host='0.0.0.0', debug=True)
