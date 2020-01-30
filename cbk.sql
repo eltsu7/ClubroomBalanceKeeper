@@ -8,17 +8,13 @@ CREATE TABLE IF NOT EXISTS product (
     name            VARCHAR(50)     NOT NULL,
     category        VARCHAR(50)     NOT NULL,
     price           INT             NOT NULL,
-    active          BOOLEAN         NOT NULL DEFAULT TRUE,
-
-    UNIQUE(id),
+    active          BOOLEAN         NOT NULL DEFAULT "true"
 );
 
-CREATE TABLE IF NOT EXISTS user (
+CREATE TABLE IF NOT EXISTS cbk_user (
     id              UUID            NOT NULL PRIMARY KEY,
-    balance         INT             NOT NULL DEFAULT 0 CHECK balance >= 0,
-    telegram_id     BIGINT,
-
-    UNIQUE(id),
+    balance         INT             NOT NULL DEFAULT 0 CHECK (balance >= 0),
+    telegram_id     BIGINT
 );
 
 CREATE TABLE IF NOT EXISTS transaction (
@@ -29,7 +25,6 @@ CREATE TABLE IF NOT EXISTS transaction (
     user_id         UUID            NOT NULL,
     description     VARCHAR(255),
 
-    FOREIGN KEY (product_id) REFERENCES Product (id),
-    FOREIGN KEY (user_id) REFERENCES User (id),
-    UNIQUE(id),
+    FOREIGN KEY (product_id) REFERENCES product (id),
+    FOREIGN KEY (user_id) REFERENCES cbk_user (id)
 );
