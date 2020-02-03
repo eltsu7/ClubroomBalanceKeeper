@@ -1,4 +1,5 @@
-__*
+__pycache__
 .env
+.vscode
 DjangoAPI/DjangoAPI/local_settings.py
 *.sh
