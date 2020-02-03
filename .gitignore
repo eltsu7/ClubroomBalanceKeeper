@@ -1,3 +1,4 @@
 __*
 .env
 DjangoAPI/DjangoAPI/local_settings.py
+*.sh

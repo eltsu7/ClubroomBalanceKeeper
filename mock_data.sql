@@ -1,42 +1,53 @@
-insert into cbk_user (balance, telegram_id) values (13, 1);
-insert into cbk_user (balance, telegram_id) values (42, 2);
-insert into cbk_user (balance, telegram_id) values (18, 3);
-insert into cbk_user (balance, telegram_id) values (38, 4);
-insert into cbk_user (balance, telegram_id) values (13, 5);
-insert into cbk_user (balance, telegram_id) values (0, 6);
-insert into cbk_user (balance, telegram_id) values (47, 7);
-insert into cbk_user (balance, telegram_id) values (15, 8);
-insert into cbk_user (balance, telegram_id) values (0, 9);
-insert into cbk_user (balance, telegram_id) values (0, 10);
-insert into cbk_user (balance, telegram_id) values (5, 11);
-insert into cbk_user (balance, telegram_id) values (35, 12);
-insert into cbk_user (balance, telegram_id) values (9, 13);
-insert into cbk_user (balance, telegram_id) values (16, 14);
-insert into cbk_user (balance, telegram_id) values (31, 15);
-insert into cbk_user (balance, telegram_id) values (6, 16);
-insert into cbk_user (balance, telegram_id) values (31, 17);
-insert into cbk_user (balance, telegram_id) values (43, 18);
-insert into cbk_user (balance, telegram_id) values (3, 19);
-insert into cbk_user (balance, telegram_id) values (12, 20);
+insert into cbk_user (balance, telegram_id) values 
+    (13, 1),
+    (42, 2),
+    (18, 3),
+    (38, 4),
+    (13, 5),
+    (0, 6),
+    (47, 7),
+    (15, 8),
+    (0, 9),
+    (0, 10),
+    (5, 11),
+    (35, 12),
+    (9, 13),
+    (16, 14),
+    (31, 15),
+    (6, 16),
+    (31, 17),
+    (43, 18),
+    (3, 19),
+    (12, 20);
 
-insert into product (name, category, price, active) values ('Flower - Potmums', 3, 13, false);
-insert into product (name, category, price, active) values ('Onions - Green', 2, 9, false);
-insert into product (name, category, price, active) values ('Wine - Jafflin Bourgongone', 1, 16, true);
-insert into product (name, category, price, active) values ('Duck - Breast', 1, 15, true);
-insert into product (name, category, price, active) values ('Kale - Red', 3, 7, false);
-insert into product (name, category, price, active) values ('Pants Custom Dry Clean', 3, 5, false);
-insert into product (name, category, price, active) values ('Bagel - Ched Chs Presliced', 2, 9, false);
-insert into product (name, category, price, active) values ('Wine - Cotes Du Rhone Parallele', 1, 18, false);
-insert into product (name, category, price, active) values ('Cheese - Mix', 1, 15, false);
-insert into product (name, category, price, active) values ('Calvados - Boulard', 2, 18, true);
-insert into product (name, category, price, active) values ('Sage Ground Wiberg', 2, 8, false);
-insert into product (name, category, price, active) values ('Capers - Pickled', 3, 16, true);
-insert into product (name, category, price, active) values ('Wine - Duboeuf Beaujolais', 1, 6, true);
-insert into product (name, category, price, active) values ('Basil - Dry, Rubbed', 2, 19, false);
-insert into product (name, category, price, active) values ('7up Diet, 355 Ml', 1, 4, true);
-insert into product (name, category, price, active) values ('Nantucket - 518ml', 1, 7, true);
-insert into product (name, category, price, active) values ('Muffin Mix - Lemon Cranberry', 2, 5, false);
-insert into product (name, category, price, active) values ('Beef - Top Sirloin - Aaa', 1, 5, true);
-insert into product (name, category, price, active) values ('Seedlings - Clamshell', 3, 11, true);
-insert into product (name, category, price, active) values ('Turnip - Wax', 3, 9, false);
+insert into product (name, category, price, active) values 
+    ('Event photography', 'Reward', 50, false),
+    ('A1', 'Print', -13, false),
+    ('A2', 'Print', -9, false),
+    ('A3', 'Print', -16, true),
+    ('A4', 'Print', -15, true),
+    ('A5', 'Print', -7, false),
+    ('A6', 'Print', -5, false),
+    ('C-41 Kehitys', 'Chemistry & Film', -18, true),
+    ('ID-11 Kehitys', 'Chemistry & Film', -8, false),
+    ('ColorPlus 200', 'Chemistry & Film', -16, true),
+    ('Hp5+ 400', 'Chemistry & Film', -6, true),
+    ('Tupla', 'Food & Drinks', -19, false),
+    ('Twix', 'Food & Drinks', -4, true),
+    ('Freeway Soda', 'Food & Drinks', -7, true),
+    ('Banana', 'Food & Drinks', -5, false);
 
+insert into transaction (product_id, cbk_user_id, date) VALUES 
+    ((SELECT id from product limit 1 offset 0),(SELECT id from cbk_user limit 1 offset 1),NOW()),
+    ((SELECT id from product limit 1 offset 2),(SELECT id from cbk_user limit 1 offset 2),NOW()),
+    ((SELECT id from product limit 1 offset 3),(SELECT id from cbk_user limit 1 offset 3),NOW()),
+    ((SELECT id from product limit 1 offset 4),(SELECT id from cbk_user limit 1 offset 4),NOW()),
+    ((SELECT id from product limit 1 offset 5),(SELECT id from cbk_user limit 1 offset 5),NOW()),
+    ((SELECT id from product limit 1 offset 6),(SELECT id from cbk_user limit 1 offset 6),NOW()),
+    ((SELECT id from product limit 1 offset 7),(SELECT id from cbk_user limit 1 offset 7),NOW()),
+    ((SELECT id from product limit 1 offset 8),(SELECT id from cbk_user limit 1 offset 8),NOW()),
+    ((SELECT id from product limit 1 offset 9),(SELECT id from cbk_user limit 1 offset 9),NOW());
+
+
+select * from balances;
+select * from products;
