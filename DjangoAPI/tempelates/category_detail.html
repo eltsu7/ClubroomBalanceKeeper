@@ -4,9 +4,16 @@
 
 <ul>
     {% for product in products %}
+
+    {% if product.times_bought == 1 %}
     <li>
-        {{ product.name }}
+        {{ product.name }}, bough 1 time
     </li>
+    {% else %}
+    <li>
+        {{ product.name }}, bough {{ product.times_bought }} times
+    </li>
+    {% endif %}
     {% endfor %}
 
 </ul>
