@@ -25,17 +25,7 @@ def product_category_list(request, category_id):
 def stats(request):
     # TODO rewrite
 
+    products = list(Product.objects.filter(active=True))
     categories = list(Category.objects.values())
-    
-    # Count number of products and add it to category object
-    for cat_i in range(len(categories)):
-        cat = categories[cat_i]
 
-        try:
-            productCount = len(Product.objects.filter(category=cat['id']))
-        except ObjectDoesNotExist:
-            productCount = 0
-
-        categories[cat_i]['productCount'] = productCount
-
-    return render(request, 'stats.html', {'categories': categories})
+    return render(request, 'stats.html', { 'products': products, 'categories': categories })

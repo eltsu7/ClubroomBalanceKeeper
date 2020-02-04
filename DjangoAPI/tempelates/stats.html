@@ -1,10 +1,19 @@
 <h1>Categories:</h1>
-<ul>
-    {% for cat in categories %}
-    <li>
-        <a href="/category/{{ cat.id }}">{{ cat.name }}</a>
-        , contains {{ cat.productCount }} products
-    </li>
-    {% endfor %}
 
-</ul>
+{% for cat in categories %}
+<h4>{{ cat.name }}</h4>
+<table>
+    <tr>
+        <th>Name</th>
+        <th>ID</th>
+    </tr>
+    {% for prod in products %}
+        {% if prod.category_id == cat.id %}
+        <tr>
+            <th>{{ prod.name }}</th>
+            <th>{{ prod.id }}</th>
+        </tr>
+        {% endif %}
+    {% endfor %}
+</table >
+{% endfor %}

@@ -22,5 +22,5 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('stats/', stats),
     path('product/', product_list),
-    path('product/<uuid:category>/', product_category_list),
+    path('product/<uuid:category_id>/', product_category_list),
 ]
