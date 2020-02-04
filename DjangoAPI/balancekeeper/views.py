@@ -24,8 +24,11 @@ def category_summary(request):
 
 def category_detail(request, id):
 
-    category = Category.objects.get(id=id)
-
-    products = Product.objects.filter(category=category.id)
-
-    return render(request, 'category_detail.html', {'category': category, 'products': products})
+    try:
+        category = Category.objects.get(id=id)
+        products = Product.objects.filter(category=category.id)
+        return render(request, 'category_detail.html', {'category': category, 'products': products})
+    
+    except ObjectDoesNotExist:
+        # TODO: over the top 404-page
+        return HttpResponse('<h4>Category not found</h4>')
