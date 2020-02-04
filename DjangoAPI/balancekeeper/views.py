@@ -1,11 +1,30 @@
 from django.shortcuts import render
-from django.http import HttpResponse
+from django.http import HttpResponse, JsonResponse
 from django.core.exceptions import ObjectDoesNotExist
+from rest_framework.parsers import JSONParser
+from .serializers import ProductSerializer
+from django.views.decorators.csrf import csrf_exempt
 
 from .models import Category, Product, Transaction
 
+@csrf_exempt
+def product_list(request):
+    if request.method == 'GET':
+        products = Product.objects.filter(active=True)
+        serializer = ProductSerializer(products, many=True)
+        return JsonResponse(serializer.data, safe=False)
 
-def category_summary(request):
+@csrf_exempt
+def product_category_list(request, category_id):
+    if request.method == 'GET':
+        products = Product.objects.filter(active=True, category=category)
+        serializer = ProductSerializer(products, many=True)
+        return JsonResponse(serializer.data, safe=False)
+
+
+def stats(request):
+    # TODO rewrite
+
     categories = list(Category.objects.values())
     
     # Count number of products and add it to category object
@@ -19,20 +38,4 @@ def category_summary(request):
 
         categories[cat_i]['productCount'] = productCount
 
-    return render(request, 'category_list.html', {'categories': categories})
-
-
-def category_detail(request, id):
-
-    try:
-        category = Category.objects.get(id=id)
-        products = list(Product.objects.filter(category=category.id).values())
-    
-    except ObjectDoesNotExist:
-        # TODO: over the top 404-page
-        return HttpResponse('<h4>Category not found</h4>')
-
-    for prod_i in range(len(products)):
-        products[prod_i]['times_bought'] = len(Transaction.objects.filter(product_id=products[prod_i]['id']))
-
-    return render(request, 'category_detail.html', {'category': category, 'products': products})
+    return render(request, 'stats.html', {'categories': categories})
