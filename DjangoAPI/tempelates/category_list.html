@@ -1,0 +1,11 @@
+<h1>Categories:</h1>
+<ul>
+    {% for cat in categories %}
+    <li>
+        <a href="/category/{{ cat.id }}">
+            {{ cat.name }}, contains {{ cat.productCount }} products
+        </a>
+    </li>
+    {% endfor %}
+
+</ul>
