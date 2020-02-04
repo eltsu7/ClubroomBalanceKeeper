@@ -4,6 +4,7 @@ from django.core.exceptions import ObjectDoesNotExist
 
 from .models import Category, Product
 
+
 def category_summary(request):
     categories = list(Category.objects.values())
     
@@ -19,4 +20,12 @@ def category_summary(request):
         categories[catIndex]['productCount'] = productCount
 
     return render(request, 'category_list.html', {'categories': categories})
-    
+
+
+def category_detail(request, id):
+
+    category = Category.objects.get(id=id)
+
+    products = Product.objects.filter(category=category.id)
+
+    return render(request, 'category_detail.html', {'category': category, 'products': products})

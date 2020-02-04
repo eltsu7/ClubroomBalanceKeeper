@@ -16,9 +16,10 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path
 
-from balancekeeper.views import category_summary
+from balancekeeper.views import category_summary, category_detail
 
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('categories/', category_summary),
+    path('category/<uuid:id>/', category_detail),
 ]

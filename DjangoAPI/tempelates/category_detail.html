@@ -1,0 +1,12 @@
+<h4><a href="/categories">Back to categories</a></h4>
+
+<h3>Details for category {{ category.name }}</h3>
+
+<ul>
+    {% for product in products %}
+    <li>
+        {{ product.name }}
+    </li>
+    {% endfor %}
+
+</ul>
