@@ -2,9 +2,8 @@
 <ul>
     {% for cat in categories %}
     <li>
-        <a href="/category/{{ cat.id }}">
-            {{ cat.name }}, contains {{ cat.productCount }} products
-        </a>
+        <a href="/category/{{ cat.id }}">{{ cat.name }}</a>
+        , contains {{ cat.productCount }} products
     </li>
     {% endfor %}
 
