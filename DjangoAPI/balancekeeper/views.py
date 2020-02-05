@@ -17,7 +17,7 @@ def product_list(request):
 @csrf_exempt
 def product_category_list(request, category_id):
     if request.method == 'GET':
-        products = Product.objects.filter(active=True, category=category)
+        products = Product.objects.filter(active=True, category=category_id)
         serializer = ProductSerializer(products, many=True)
         return JsonResponse(serializer.data, safe=False)
 
