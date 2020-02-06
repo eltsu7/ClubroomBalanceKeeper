@@ -15,12 +15,15 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path
+from rest_framework.urlpatterns import format_suffix_patterns
 
-from balancekeeper.views import stats, product_list, product_category_list
+from balancekeeper.views import ProductView, stats, product_category_list
 
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('stats/', stats),
-    path('product/', product_list),
+    path('product/', ProductView.as_view()),
     path('product/<uuid:category_id>/', product_category_list),
 ]
+
+urlpatterns = format_suffix_patterns(urlpatterns)
