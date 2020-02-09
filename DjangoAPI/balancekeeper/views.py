@@ -44,14 +44,6 @@ class ProductView(APIView):
         return Response(serializer.data)
 
 
-@csrf_exempt
-def product_category_list(request, category_id):
-    if request.method == 'GET':
-        products = Product.objects.filter(active=True, category=category_id)
-        serializer = ProductSerializer(products, many=True)
-        return JsonResponse(serializer.data, safe=False)
-
-
 def stats(request):
     products = list(Product.objects.filter(active=True))
     categories = list(Category.objects.values())

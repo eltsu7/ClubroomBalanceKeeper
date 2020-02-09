@@ -23,7 +23,6 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('stats/', stats),
     path('product/', ProductView.as_view()),
-    path('product/<uuid:category_id>/', product_category_list),
 ]
 
 urlpatterns = format_suffix_patterns(urlpatterns)
