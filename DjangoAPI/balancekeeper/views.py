@@ -52,6 +52,7 @@ class ProductView(CbkBaseClass):
         serializer = ProductSerializer(newProduct)
         return Response(serializer.data)
 
+
 class CbkUserView(CbkBaseClass):
 
     # Get all users / register new user
@@ -64,6 +65,35 @@ class CbkUserView(CbkBaseClass):
 
         cbkusers = CbkUser.objects.all()
         serializer = CbkUserSerializer(cbkusers, many=True)
+        return Response(serializer.data)
+
+    def post(self, request):
+        
+        # Return status code 403 if api key isn't valid
+        if not self.isValidKey(request):
+            return HttpResponse('Invalid API key.', status=403)
+
+        data = request.data
+        name = telegram_id = None
+
+        if 'name' in data:
+            name = data['name']
+
+        if 'telegram_id' in data:
+            telegram_id = data['telegram_id']
+
+        # Return status code 400 if user with this telegram already exists
+        if CbkUser.objects.filter(telegram_id=telegram_id).exists():
+            return HttpResponse('User already exists with that Telegram ID.', status=400)
+
+        # Return status code 400 if telegram_id AND name is missing
+        if not bool(name) and not bool(telegram_id):
+            return HttpResponse('Bad request.', status=400)
+
+        newCbkUser = CbkUser(name=name, telegram_id=telegram_id)
+        newCbkUser.save()
+
+        serializer = CbkUserSerializer(newCbkUser)
         return Response(serializer.data)
 
 

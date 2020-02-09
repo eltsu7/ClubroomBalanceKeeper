@@ -31,11 +31,14 @@ class Product(models.Model):
 
 class CbkUser(models.Model):
     id          = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
-    name        = models.CharField(max_length=50)
+    name        = models.CharField(max_length=50, null=True, blank=True)
     telegram_id = models.BigIntegerField(unique=True)
 
     def __str__(self):
-        return self.name
+        if self.name:
+            return self.name
+        else:
+            return "TgID: " + str(self.telegram_id)
 
     class Meta:
         db_table = 'cbk_user'
