@@ -103,9 +103,35 @@ class TransactionView(CbkBaseClass):
 
     def get(self, request, id):
 
+        # Return status code 403 if api key isn't valid
+        if not self.isValidKey(request):
+            return HttpResponse('Invalid API key.', status=403)
+
         transactions = Transaction.objects.filter(cbk_user_id=id)
         serializer = TransactionSerializer(transactions, many=True)
 
+        return Response(serializer.data)
+
+    def post(self, request, id):
+
+        # Return status code 403 if api key isn't valid
+        if not self.isValidKey(request):
+            return HttpResponse('Invalid API key.', status=403)
+
+        data = request.data
+
+        # Check if product and user exist
+        if not CbkUser.objects.filter(id=id).exists():
+            return HttpResponse('User not found.', status=404)
+        
+        if not 'product_id' in data or not Product.objects.filter(id=data['product_id']).exists():
+            return HttpResponse('Product not found.', status=404)
+
+        newTransaction = Transaction(cbk_user_id=CbkUser.objects.get(id=id), product_id=Product.objects.get(id=data['product_id']))
+
+        newTransaction.save()
+
+        serializer = TransactionSerializer(newTransaction)
         return Response(serializer.data)
 
 
