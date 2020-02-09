@@ -17,12 +17,12 @@ class Category(models.Model):
 class Product(models.Model):
     id          = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False, unique=True)
     name        = models.CharField(max_length=50, blank=False)
-    category    = models.ForeignKey(Category, on_delete=models.DO_NOTHING, null=False, default=uuid.uuid4)
+    category    = models.ForeignKey(Category, related_name='products', on_delete=models.DO_NOTHING, null=False, default=uuid.uuid4)
     price       = models.IntegerField(blank=False)
     active      = models.BooleanField(default=True)
 
     def __str__(self):
-        return "({} mc) {}".format(self.price, self.name)
+        return self.name
 
     class Meta:
         db_table = 'product'

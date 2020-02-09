@@ -6,7 +6,7 @@ from rest_framework.decorators import parser_classes
 from rest_framework.parsers import JSONParser
 from rest_framework.views import APIView
 from rest_framework.response import Response
-from .serializers import ProductSerializer, CbkUserSerializer
+from .serializers import ProductSerializer, CbkUserSerializer, CategorySerializer, TransactionSerializer
 import json
 
 from .keys import API_KEYS
@@ -94,6 +94,28 @@ class CbkUserView(CbkBaseClass):
         newCbkUser.save()
 
         serializer = CbkUserSerializer(newCbkUser)
+        return Response(serializer.data)
+
+
+class TransactionView(CbkBaseClass):
+
+    # Returns users transaction, adds new ones
+
+    def get(self, request, id):
+
+        transactions = Transaction.objects.filter(cbk_user_id=id)
+        serializer = TransactionSerializer(transactions, many=True)
+
+        return Response(serializer.data)
+
+
+class CategoryView(CbkBaseClass):
+    
+    # Returns all categories
+
+    def get(self, request):
+        categories = Category.objects.all()
+        serializer = CategorySerializer(categories, many=True)
         return Response(serializer.data)
 
 

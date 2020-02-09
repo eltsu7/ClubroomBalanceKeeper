@@ -17,13 +17,15 @@ from django.contrib import admin
 from django.urls import path
 from rest_framework.urlpatterns import format_suffix_patterns
 
-from balancekeeper.views import ProductView, CbkUserView, stats
+from balancekeeper.views import stats, ProductView, CbkUserView, CategoryView, TransactionView
 
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('stats/', stats),
     path('product/', ProductView.as_view()),
+    path('category/', CategoryView.as_view()),
     path('user/', CbkUserView.as_view()),
+    path('user/<uuid:id>', TransactionView.as_view()),
 ]
 
 urlpatterns = format_suffix_patterns(urlpatterns)
