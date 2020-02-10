@@ -2,43 +2,36 @@ from django.shortcuts import render
 from django.http import HttpResponse
 from django.core.exceptions import ObjectDoesNotExist
 from django.views.decorators.csrf import csrf_exempt
-from rest_framework.decorators import parser_classes
+from rest_framework.decorators import parser_classes, permission_classes, authentication_classes
 from rest_framework.parsers import JSONParser
 from rest_framework.views import APIView
 from rest_framework.response import Response
+from rest_framework.authentication import TokenAuthentication
+from rest_framework.permissions import IsAuthenticated
 from .serializers import ProductSerializer, CbkUserSerializer, CategorySerializer, TransactionSerializer
 import json
 
-from .keys import API_KEYS
 from .models import Category, Product, Transaction, CbkUser
 
 
-class CbkBaseClass(APIView):
-
-    # Base class for models views in CBK
-
-    def isValidKey(self, request):
-        if 'api_key' in request.data:
-            return request.data['api_key'] in API_KEYS
-        else:
-            return False
-
-
-class ProductView(CbkBaseClass):
+class ProductView(APIView):
 
     # Get return all active products, post creates new product
+
+    authentication_classes = [TokenAuthentication]
+    permission_classes = [IsAuthenticated]
 
     def get(self, request):
         products = Product.objects.filter(active=True)
         serializer = ProductSerializer(products, many=True)
         return Response(serializer.data)
     
+    
     @parser_classes([JSONParser])
     def post(self, request):
 
-        # Return status code 403 if api key isn't valid
-        if not self.isValidKey(request):
-            return HttpResponse('Invalid API key.', status=403)
+        # authentication_classes = [TokenAuthentication]
+        # permission_classes = [IsAuthenticated]
 
         data = request.data
 
@@ -53,26 +46,22 @@ class ProductView(CbkBaseClass):
         return Response(serializer.data)
 
 
-class CbkUserView(CbkBaseClass):
+class CbkUserView(APIView):
 
     # Get all users / register new user
 
+    authentication_classes = [TokenAuthentication]
+    permission_classes = [IsAuthenticated]
+
     def get(self, request):
 
-        # Return status code 403 if api key isn't valid
-        if not self.isValidKey(request):
-            return HttpResponse('Invalid API key.', status=403)
+        print(request.auth)
 
         cbkusers = CbkUser.objects.all()
         serializer = CbkUserSerializer(cbkusers, many=True)
         return Response(serializer.data)
 
     def post(self, request):
-        
-        # Return status code 403 if api key isn't valid
-        if not self.isValidKey(request):
-            return HttpResponse('Invalid API key.', status=403)
-
         data = request.data
         name = telegram_id = None
 
@@ -97,27 +86,20 @@ class CbkUserView(CbkBaseClass):
         return Response(serializer.data)
 
 
-class TransactionView(CbkBaseClass):
+class TransactionView(APIView):
 
     # Returns users transaction, adds new ones
 
+    authentication_classes = [TokenAuthentication]
+    permission_classes = [IsAuthenticated]
+
     def get(self, request, id):
-
-        # Return status code 403 if api key isn't valid
-        if not self.isValidKey(request):
-            return HttpResponse('Invalid API key.', status=403)
-
         transactions = Transaction.objects.filter(cbk_user_id=id)
         serializer = TransactionSerializer(transactions, many=True)
 
         return Response(serializer.data)
 
     def post(self, request, id):
-
-        # Return status code 403 if api key isn't valid
-        if not self.isValidKey(request):
-            return HttpResponse('Invalid API key.', status=403)
-
         data = request.data
 
         # Check if product and user exist
@@ -135,7 +117,7 @@ class TransactionView(CbkBaseClass):
         return Response(serializer.data)
 
 
-class CategoryView(CbkBaseClass):
+class CategoryView(APIView):
     
     # Returns all categories
 
