@@ -5,7 +5,7 @@ import uuid
 class ProductSerializer(serializers.ModelSerializer):
     class Meta:
         model = Product
-        fields = ['id', 'name', 'category', 'price']
+        fields = ['id', 'name', 'category', 'price', 'active']
 
 class CbkUserSerializer(serializers.ModelSerializer):
     class Meta:
@@ -21,7 +21,8 @@ class CategorySerializer(serializers.ModelSerializer):
 
 class TransactionSerializer(serializers.ModelSerializer):
     product_name = serializers.CharField(source='product_id.name')
+    product_price = serializers.CharField(source='product_id.price')
     cbk_user_name = serializers.CharField(source='cbk_user_id.name')
     class Meta:
         model = Transaction
-        fields = ['id', 'product_id', 'product_name', 'cbk_user_id', 'cbk_user_name', 'date', 'description']
+        fields = ['id', 'product_id', 'product_name', 'product_price', 'cbk_user_id', 'cbk_user_name', 'date', 'description']

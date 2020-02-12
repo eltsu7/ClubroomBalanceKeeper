@@ -2,6 +2,8 @@ from django.shortcuts import render
 from django.http import HttpResponse
 from django.core.exceptions import ObjectDoesNotExist
 from django.views.decorators.csrf import csrf_exempt
+from django.db.models import Sum
+from django.shortcuts import get_object_or_404
 from rest_framework.decorators import parser_classes, permission_classes, authentication_classes
 from rest_framework.parsers import JSONParser
 from rest_framework.views import APIView
@@ -23,16 +25,23 @@ class ProductView(APIView):
 
     def get(self, request):
         products = Product.objects.filter(active=True)
-        serializer = ProductSerializer(products, many=True)
-        return Response(serializer.data)
+        productData = ProductSerializer(products, many=True).data
+
+        categories = {}
+
+        for prod in productData:
+            if str(prod['category']) in categories:
+                categories[str(prod['category'])]['products'].append(prod)
+            else:
+                categories[str(prod['category'])] = {}
+                categories[str(prod['category'])]['category name'] = str(Category.objects.get(id=prod['category']))
+                categories[str(prod['category'])]['products'] = [prod]
+
+        return Response(categories)
     
     
     @parser_classes([JSONParser])
     def post(self, request):
-
-        # authentication_classes = [TokenAuthentication]
-        # permission_classes = [IsAuthenticated]
-
         data = request.data
 
         # Return status code 400 if fields are missing
@@ -54,9 +63,6 @@ class CbkUserView(APIView):
     permission_classes = [IsAuthenticated]
 
     def get(self, request):
-
-        print(request.auth)
-
         cbkusers = CbkUser.objects.all()
         serializer = CbkUserSerializer(cbkusers, many=True)
         return Response(serializer.data)
@@ -85,6 +91,23 @@ class CbkUserView(APIView):
         serializer = CbkUserSerializer(newCbkUser)
         return Response(serializer.data)
 
+
+class CbkUserDetailView(APIView):
+
+    # Returns user details
+
+    authentication_classes = [TokenAuthentication]
+    permission_classes = [IsAuthenticated]
+
+    def get(self, request, id):
+        cbkuser = get_object_or_404(CbkUser, id=id)
+        serializerData = CbkUserSerializer(cbkuser).data
+
+        # Append aggregated balance to cbkuser data
+        balance = Transaction.objects.filter(cbk_user_id=id).aggregate(balance=Sum('product_id__price'))
+        serializerData['balance'] = balance['balance']
+
+        return Response(serializerData)
 
 class TransactionView(APIView):
 
@@ -117,17 +140,10 @@ class TransactionView(APIView):
         return Response(serializer.data)
 
 
-class CategoryView(APIView):
-    
-    # Returns all categories
-
-    def get(self, request):
-        categories = Category.objects.all()
-        serializer = CategorySerializer(categories, many=True)
-        return Response(serializer.data)
-
-
 def stats(request):
+
+    # Returns some mildly interesting statistics
+
     products = list(Product.objects.filter(active=True))
     categories = list(Category.objects.values())
 
