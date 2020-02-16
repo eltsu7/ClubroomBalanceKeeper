@@ -4,3 +4,4 @@ __pycache__
 DjangoAPI/DjangoAPI/local_settings.py
 *.sh
 DjangoAPI/balancekeeper/keys.py
+DjangoAPI/static/
