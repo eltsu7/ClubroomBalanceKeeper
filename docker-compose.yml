@@ -1,17 +1,18 @@
 version: '3'
 
 services:
-  api:
-    build: ./flask-api
-    ports:
-      - '5000:5000'
-
-  database:
+  db:
     image: postgres
+    environment:
+        - POSTGRES_DB=cbk
+        - POSTGRES_USER=djangocbk
+        - POSTGRES_PASSWORD=moippa
+  web:
+    build: .
+    command: python manage.py runserver 0.0.0.0:8000
     volumes:
-      - cbk_data:/var/lib/postgresql/data
-      - ./cbk.sql:/docker-entrypoint-initdb.d/init.sql
-
-
-volumes:
-  cbk_data:
+      - .:/code
+    ports:
+      - "8000:8000"
+    depends_on:
+      - db
