@@ -10,7 +10,7 @@ services:
   web:
     build: .
     command: sh -c "python DjangoAPI/manage.py migrate &&
-                    python DjangoAPI/manage.py collectstatic &&
+                    python DjangoAPI/manage.py collectstatic -c --noinput &&
                     python DjangoAPI/manage.py runserver 0.0.0.0:8000"
     volumes:
       - .:/code
