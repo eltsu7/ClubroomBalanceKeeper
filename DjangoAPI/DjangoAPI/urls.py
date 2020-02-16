@@ -20,12 +20,12 @@ from rest_framework.urlpatterns import format_suffix_patterns
 from balancekeeper.views import stats, ProductView, CbkUserView, CbkUserDetailView, TransactionView
 
 urlpatterns = [
-    path('admin/', admin.site.urls),
-    path('stats/', stats),
-    path('product/', ProductView.as_view()),
-    path('user/', CbkUserView.as_view()),
-    path('user/<uuid:id>/', CbkUserDetailView.as_view()),
-    path('user/<uuid:id>/transactions/', TransactionView.as_view()),
+    path('cbk/admin/', admin.site.urls),
+    path('cbk/stats/', stats),
+    path('cbk/product/', ProductView.as_view()),
+    path('cbk/user/', CbkUserView.as_view()),
+    path('cbk/user/<uuid:id>/', CbkUserDetailView.as_view()),
+    path('cbk/user/<uuid:id>/transactions/', TransactionView.as_view()),
 ]
 
 urlpatterns = format_suffix_patterns(urlpatterns)
