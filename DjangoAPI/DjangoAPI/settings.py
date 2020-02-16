@@ -123,7 +123,7 @@ AUTH_PASSWORD_VALIDATORS = [
 
 LANGUAGE_CODE = 'en-us'
 
-TIME_ZONE = 'FI'
+TIME_ZONE = 'Europe/Helsinki'
 
 USE_I18N = True
 
