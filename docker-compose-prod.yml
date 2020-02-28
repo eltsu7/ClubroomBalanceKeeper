@@ -1,0 +1,27 @@
+version: '3'
+
+services:
+  db:
+    image: postgres
+    environment:
+        - POSTGRES_DB=cbk
+        - POSTGRES_USER=djangocbk
+        - POSTGRES_PASSWORD=moippa
+    volumes:
+      - cbk-data:/home/dogger/Volumes/cbk
+
+  web:
+    build: .
+    command: sh -c "python DjangoAPI/manage.py migrate &&
+                    python DjangoAPI/manage.py collectstatic -c --noinput &&
+                    python DjangoAPI/manage.py runserver 0.0.0.0:8000"
+    volumes:
+      - .:/code
+    ports:
+      - "8000:8000"
+    depends_on:
+      - db
+    restart: always
+
+volumes:
+  cbk-data:
