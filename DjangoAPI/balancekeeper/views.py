@@ -105,7 +105,7 @@ class CbkUserDetailView(APIView):
 
         # Append aggregated balance to cbkuser data
         balance = Transaction.objects.filter(cbk_user_id=id).aggregate(balance=Sum('product_id__price'))
-        if balance != None:
+        if balance['balance'] != None:
             serializerData['balance'] = balance['balance']
         else:
             serializerData['balance'] = 0
