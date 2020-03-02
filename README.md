@@ -11,25 +11,28 @@ Fork & PR.
 GET returns all users
 
 POST registers new user
+Required fields: 'name', 'telegram_id'
 
 ### /user/id
 GET returns user data
 
-PUT update user data (nickname)
+PUT update user data e.g. nickname (TODO)
 
-DELETE deletes user
+DELETE deletes user (TODO)
 
 ### /user/id/transactions
 GET returns users transactions
 
 PUT adds new transaction
+Required fields: 'product_id'
 
 ### /product
 GET returns available products
 
 POST adds new product
+Required fields: 'name', 'category', 'price'
 
-DELETE deletes product
+DELETE deletes product (TODO)
 
 ## Application components
 - router, validates input and passes it to controller
