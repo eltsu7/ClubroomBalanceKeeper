@@ -39,16 +39,18 @@ class ProductView(APIView):
 
         return Response(categories)
     
-    
-    @parser_classes([JSONParser])
     def post(self, request):
         data = request.data
 
-        # Return status code 400 if fields are missing
-        if not (all (field in data for field in ['name', 'category', 'price'])):
+        try:
+            name = data['name']
+            category = data['category']
+            price = data['price']
+
+        except KeyError:
             return HttpResponse('Bad request.', status=400)
 
-        newProduct = Product(name=data['name'], category_id=data['category'], price=data['price'])
+        newProduct = Product(name=name, category_id=category, price=price)
         newProduct.save()
 
         serializer = ProductSerializer(newProduct)
