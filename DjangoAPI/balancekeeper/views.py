@@ -116,7 +116,12 @@ class CbkUserDetailView(APIView):
         data = request.data
 
         cbkuser = get_object_or_404(CbkUser, id=id)
-        cbkuser.name = data['name']
+
+        try:
+            cbkuser.name = data['name']
+        except KeyError:
+            return HttpResponse(400)
+
         cbkuser.save()
 
         serializer = CbkUserSerializer(cbkuser)
