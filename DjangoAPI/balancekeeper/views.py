@@ -112,6 +112,17 @@ class CbkUserDetailView(APIView):
 
         return Response(serializerData)
 
+    def put(self, request, id):
+        data = request.data
+
+        cbkuser = get_object_or_404(CbkUser, id=id)
+        cbkuser.name = data['name']
+        cbkuser.save()
+
+        serializer = CbkUserSerializer(cbkuser)
+        return Response(serializer.data)
+
+
 class TransactionView(APIView):
 
     # Returns users transaction, adds new ones
