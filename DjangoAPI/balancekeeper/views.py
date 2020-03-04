@@ -71,11 +71,12 @@ class CbkUserView(APIView):
         data = request.data
         name = telegram_id = None
 
-        if 'name' in data:
+        try:
             name = data['name']
-
-        if 'telegram_id' in data:
             telegram_id = data['telegram_id']
+
+        except KeyError:
+            return HttpResponse(400, 'Bad body data')
 
         # Return status code 400 if user with this telegram already exists
         if CbkUser.objects.filter(telegram_id=telegram_id).exists():
