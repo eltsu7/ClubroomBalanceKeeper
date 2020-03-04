@@ -16,7 +16,7 @@ Required fields: 'name', 'telegram_id'
 ### /user/id
 GET returns user data
 
-PUT update user data e.g. nickname (TODO)
+PUT update user data e.g. nickname (TODO: error checking)
 
 DELETE deletes user (TODO)
 
