@@ -2,7 +2,6 @@ from django.shortcuts import render
 from django.http import HttpResponse
 from django.core.exceptions import ObjectDoesNotExist
 from django.views.decorators.csrf import csrf_exempt
-from django.db.models import Sum
 from django.shortcuts import get_object_or_404
 from rest_framework.decorators import parser_classes, permission_classes, authentication_classes
 from rest_framework.parsers import JSONParser
@@ -20,7 +19,6 @@ class ProductView(APIView):
 
     # Get return all active products, post creates new product
 
-    authentication_classes = [TokenAuthentication]
     permission_classes = [IsAuthenticated]
 
     def get(self, request):
@@ -61,7 +59,6 @@ class CbkUserView(APIView):
 
     # Get all users / register new user
 
-    authentication_classes = [TokenAuthentication]
     permission_classes = [IsAuthenticated]
 
     def get(self, request):
@@ -99,19 +96,11 @@ class CbkUserDetailView(APIView):
 
     # Returns user details
 
-    authentication_classes = [TokenAuthentication]
     permission_classes = [IsAuthenticated]
 
     def get(self, request, id):
         cbkuser = get_object_or_404(CbkUser, id=id)
         serializerData = CbkUserSerializer(cbkuser).data
-
-        # Append aggregated balance to cbkuser data
-        balance = Transaction.objects.filter(cbk_user_id=id).aggregate(balance=Sum('product_id__price'))
-        if balance['balance'] != None:
-            serializerData['balance'] = balance['balance']
-        else:
-            serializerData['balance'] = 0
 
         return Response(serializerData)
 
@@ -135,7 +124,6 @@ class TransactionView(APIView):
 
     # Returns users transaction, adds new ones
 
-    authentication_classes = [TokenAuthentication]
     permission_classes = [IsAuthenticated]
 
     def get(self, request, id):

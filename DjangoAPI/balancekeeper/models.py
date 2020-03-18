@@ -1,4 +1,5 @@
 from django.db import models
+from django.db.models import Sum
 import uuid
 
 
@@ -43,6 +44,11 @@ class CbkUser(models.Model):
     class Meta:
         db_table = 'cbk_user'
         ordering = ['name']
+
+    @property
+    def balance(self):
+        balance = Transaction.objects.filter(cbk_user_id=self.id).aggregate(balance=Sum('product_id__price'))['balance']
+        return balance or 0
 
 
 class Transaction(models.Model):

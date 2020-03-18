@@ -10,7 +10,7 @@ class ProductSerializer(serializers.ModelSerializer):
 class CbkUserSerializer(serializers.ModelSerializer):
     class Meta:
         model = CbkUser
-        fields = ['id', 'name', 'telegram_id']
+        fields = ['id', 'name', 'telegram_id', 'balance']
 
 class CategorySerializer(serializers.ModelSerializer):
     products = serializers.StringRelatedField(many=True)
