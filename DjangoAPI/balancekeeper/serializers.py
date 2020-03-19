@@ -13,11 +13,9 @@ class CbkUserSerializer(serializers.ModelSerializer):
         fields = ['id', 'name', 'telegram_id', 'balance']
 
 class CategorySerializer(serializers.ModelSerializer):
-    products = serializers.StringRelatedField(many=True)
-
     class Meta:
         model = Category
-        fields = ['id', 'name', 'products']
+        fields = ['id', 'name', 'active']
 
 class TransactionSerializer(serializers.ModelSerializer):
     product_name = serializers.CharField(source='product_id.name')

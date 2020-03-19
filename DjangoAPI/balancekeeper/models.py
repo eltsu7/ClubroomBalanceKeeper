@@ -14,6 +14,11 @@ class Category(models.Model):
         db_table = 'category'
         ordering = ['name']
 
+    @property
+    def active(self):
+        prods = Product.objects.filter(category=self.id)
+        return any(prod.active == True for prod in prods)
+
 
 class Product(models.Model):
     id          = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False, unique=True)
