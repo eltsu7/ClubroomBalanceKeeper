@@ -71,6 +71,19 @@ class ProductView(APIView):
         return Response(serializer.data)
 
 
+class ProductDetailView(APIView):
+
+    # Get returns product info
+
+    permission_classes = [IsAuthenticated]
+
+    def get(self, request, id):
+        product = Product.objects.get(id=id)
+        serializer = ProductSerializer(product)
+
+        return Response(serializer.data)
+
+
 class CbkUserView(APIView):
 
     # Get all users / register new user
