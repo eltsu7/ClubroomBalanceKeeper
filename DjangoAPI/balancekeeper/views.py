@@ -36,19 +36,9 @@ class ProductView(APIView):
 
     def get(self, request):
         products = Product.objects.all()
-        productData = ProductSerializer(products, many=True).data
+        serializer = ProductSerializer(products, many=True)
 
-        categories = {}
-
-        for prod in productData:
-            if str(prod['category']) in categories:
-                categories[str(prod['category'])]['products'].append(prod)
-            else:
-                categories[str(prod['category'])] = {}
-                categories[str(prod['category'])]['category name'] = str(Category.objects.get(id=prod['category']))
-                categories[str(prod['category'])]['products'] = [prod]
-
-        return Response(categories)
+        return Response(serializer.data)
     
     def post(self, request):
         data = request.data
