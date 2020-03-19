@@ -22,7 +22,7 @@ class ProductView(APIView):
     permission_classes = [IsAuthenticated]
 
     def get(self, request):
-        products = Product.objects.filter(active=True)
+        products = Product.objects.all()
         productData = ProductSerializer(products, many=True).data
 
         categories = {}
