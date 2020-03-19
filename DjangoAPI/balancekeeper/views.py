@@ -17,7 +17,7 @@ from .models import Category, Product, Transaction, CbkUser
 
 class CategoryView(APIView):
 
-    # Get return all active products, post creates new product
+    # Get returns all categories
 
     permission_classes = [IsAuthenticated]
 
@@ -28,9 +28,22 @@ class CategoryView(APIView):
         return Response(serializer.data)
 
 
+class CategoryDetailView(APIView):
+
+    # Get all products in a category
+
+    permission_classes = [IsAuthenticated]
+
+    def get(self, request, id):
+        products = Product.objects.filter(category=id)
+        serializer = ProductSerializer(products, many=True)
+
+        return Response(serializer.data)
+
+
 class ProductView(APIView):
 
-    # Get return all active products, post creates new product
+    # Get returns all products, post creates new product
 
     permission_classes = [IsAuthenticated]
 
